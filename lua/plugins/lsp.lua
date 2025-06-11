@@ -18,6 +18,7 @@ return {
 			lspconfig.intelephense.setup {}
 			lspconfig.dockerls.setup {}
 			lspconfig.gopls.setup {}
+			lspconfig.bashls.setup {}
 
 			vim.api.nvim_create_autocmd('LspAttach', {
 				callback = function(args)
