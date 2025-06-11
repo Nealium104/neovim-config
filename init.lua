@@ -22,6 +22,7 @@ vim.opt.relativenumber = true
 
 -- Looks
 vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.cmd.colorscheme 'melange'
 
