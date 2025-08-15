@@ -29,7 +29,7 @@ vim.opt.listchars = {
 	tab = '~ ',
 	trail = '•',
 }
-vim.cmd.colorscheme 'melange'
+vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
 
 -- LSP Keymaps
 vim.diagnostic.config({
