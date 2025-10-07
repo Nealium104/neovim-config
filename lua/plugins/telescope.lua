@@ -6,6 +6,17 @@ return {
 			{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
 		},
 		config = function()
+			local telescope = require('telescope')
+			local builtin = require('telescope.builtin')
+
+			telescope.setup({
+				pickers = {
+					find_files = {
+						hidden = true,
+					},
+				},
+			})
+
 			-- (f)ind (h)elp
 			vim.keymap.set("n", "<space>fh", require('telescope.builtin').help_tags)
 			-- (f)ind files in (d)irectory

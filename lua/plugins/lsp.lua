@@ -15,10 +15,10 @@ return {
 		},
 		config = function()
 			local capabilities = require('blink.cmp').get_lsp_capabilities()
-			local lspconfig = require("lspconfig")
 
-			for _, server in ipairs({ "luals", "intelephense", "dockerls", "gopls", "bashls" }) do
-				lspconfig[server].setup({ capabilities = capabilities })
+			for _, server in ipairs({ "lua_ls", "intelephense", "dockerls", "gopls", "bashls", "clangd" }) do
+				vim.lsp.config(server, { capabilities = capabilities })
+				vim.lsp.enable(server)
 			end
 
 			vim.api.nvim_create_autocmd('LspAttach', {
