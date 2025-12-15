@@ -16,6 +16,8 @@ return {
 
         config = function()
             local capabilities = require('blink.cmp').get_lsp_capabilities()
+            local venv_path = vim.fn.getcwd() .. "/.venv/bin"
+            vim.env.PATH = venv_path .. ":" .. vim.env.PATH
 
             local servers = {
                 lua = {
@@ -73,7 +75,52 @@ return {
                     filetypes = { "json" },
                     root_markers = { ".git" },
                 },
+                ansible = {
+                    cmd = { "ansible-language-server", "--stdio" },
+                    filetypes = { "yaml.ansible" },
+                    root_markers = { "ansible.cfg", "inventory", ".git" },
+                    settings = {
+                        python = {
+                            interpreterPath = "python",
+                            activationScript = "activate"
+                        },
+                        ansible = {
+                            path = "ansible"
+                        },
+                        validation = {
+                            lint = {
+                                enabled = true,
+                                path = "ansible-lint"
+                            }
+                        },
+                    }
+                },
             }
+
+            vim.filetype.add({
+                extension = {
+                    yml = function(path, bufnr)
+                        -- Check if file is in a standard ansible directory structure
+                        if path:match("playbooks") or path:match("roles") or path:match("tasks") then
+                            return "yaml.ansible"
+                        end
+
+                        -- Fallback: Check file content for Ansible keywords
+                        local content = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] or ""
+                        if content:match("^%-%s?hosts:") or content:match("^%-%s?name:") then
+                            return "yaml.ansible"
+                        end
+
+                        return "yaml"
+                    end,
+                },
+                pattern = {
+                    -- Force specific filenames
+                    [".*/playbooks/.*%.yml"] = "yaml.ansible",
+                    [".*/roles/.*%.yml"]     = "yaml.ansible",
+                    ["ansible.yml"]          = "yaml.ansible",
+                },
+            })
 
             for name, cfg in pairs(servers) do
                 cfg.capabilities = cfg.capabilities or capabilities
