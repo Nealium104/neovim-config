@@ -16,8 +16,10 @@ vim.filetype.add({
     },
     pattern = {
         -- Force specific filenames
-        [".*/playbooks/.*%.yml"] = "yaml.ansible",
-        [".*/roles/.*%.yml"]     = "yaml.ansible",
-        ["ansible.yml"]          = "yaml.ansible",
+        [".*/playbooks/.*%.yml"]    = "yaml.ansible",
+        [".*/roles/.*%.yml"]        = "yaml.ansible",
+        ["ansible.yml"]             = "yaml.ansible",
+        [".*%prod.*%conf"]          = "nginx",
+        [".*nginx.*%.conf"]         = "nginx",
     },
 })
